@@ -6,6 +6,7 @@ describe "Static pages" do
     it { should have_selector('h1', text: heading) }
     it { should have_selector('title', text: title) }
   end
+  
   describe "Home Page" do
     before { visit root_path }
     let(:heading) { 'Sample App' }
