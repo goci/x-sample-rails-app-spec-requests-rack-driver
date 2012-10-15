@@ -5,6 +5,11 @@ gem 'bootstrap-sass'
 gem 'thin'
 gem 'pg'
 gem 'jquery-rails'
+gem 'bcrypt-ruby'
+
+group :development do
+  gem 'annotate'
+end
 
 group :development, :test do
   gem 'rspec-rails'
