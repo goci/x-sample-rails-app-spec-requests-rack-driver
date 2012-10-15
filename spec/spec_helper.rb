@@ -11,12 +11,6 @@ Spork.prefork do
   require 'rspec/rails'
   require 'rspec/autorun'
   
-  # need this for quick specs!
-  require "bcrypt"
-  silence_warnings do
-    BCrypt::Engine::DEFAULT_COST = BCrypt::Engine::MIN_COST
-  end
-
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}

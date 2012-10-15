@@ -108,7 +108,7 @@ describe User do
     it "should downcase email" do
         @user.email = "FOO@BAR.COM"
         @user.save
-        @user.reload.email.should == "foo@bar.com"
+        @user.email.should == "foo@bar.com"
     end
   end
 end
