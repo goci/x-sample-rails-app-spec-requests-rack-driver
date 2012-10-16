@@ -25,27 +25,32 @@ describe "User pages" do
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
-      it "should display error messages" do
-        click_button submit
-        should have_selector('div#error_explanation')
+
+      describe "after submission" do
+        before { click_button submit }
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_selector('div#error_explanation') }
+        it { should have_content('error') }
       end
     end
 
     describe "with valid information" do
+      let(:user) { FactoryGirl.build(:user) }
       before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "Name",         with: user.name
+        fill_in "Email",        with: user.email
+        fill_in "Password",     with: user.password
+        fill_in "Confirmation", with: user.password_confirmation
       end
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
       end
-      
-      it "should display a welcome message" do
-        click_button submit
-        should have_selector('.alert-success', text: 'Welcome to the Sample App!')
+
+      describe "after saving a user" do
+        before { click_button submit }
+        it { should have_selector('title', text: user.name) }
+        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
   end

@@ -20,6 +20,6 @@ class User < ActiveRecord::Base
             presence: true,
             format: { with: %r{\w+@\w+} },
             uniqueness: { case_sensitive: false }
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true
 end
