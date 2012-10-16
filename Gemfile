@@ -25,6 +25,7 @@ group :assets do
 end
 
 group :test do
+  gem 'factory_girl_rails'
   gem 'capybara'
   gem 'rb-fsevent', :require => false
   gem 'growl'
