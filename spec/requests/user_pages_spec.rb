@@ -51,7 +51,18 @@ describe "User pages" do
         before { click_button submit }
         it { should have_selector('title', text: user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_link('Sign out')}
+        
+        describe "navigate to home page" do
+          before { click_link 'Home' }
+          it {should_not have_link('Sign up now!') }
+        end
+        
+        describe "followed by sign out" do
+          before { click_link 'Sign out' }
+          it { should have_link('Sign in') }
+        end
       end
     end
-  end
+  end  
 end

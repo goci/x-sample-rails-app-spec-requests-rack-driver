@@ -13,7 +13,10 @@
 class User < ActiveRecord::Base
   attr_accessible :email, :name, :password, :password_confirmation
   has_secure_password
-  before_save { email.downcase! }
+  before_save do
+    self.email.downcase!
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
   
   validates :name, presence: true
   validates :email,
