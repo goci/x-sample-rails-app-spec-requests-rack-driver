@@ -1,4 +1,3 @@
-# A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 require 'active_support/core_ext'
 
@@ -12,6 +11,7 @@ guard 'spork', rspec_env: { 'RAILS_ENV' => 'test' } do
   watch('spec/spec_helper.rb')
   watch('test/test_helper.rb')
   watch('spec/support/')
+  watch('config/routes.rb')
 end
 
 
@@ -48,3 +48,9 @@ guard 'rspec', all_after_pass: false do
 end
 
 
+
+guard 'cucumber' do
+  watch(%r{^features/.+\.feature$})
+  watch(%r{^features/support/.+$})          { 'features' }
+  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
+end

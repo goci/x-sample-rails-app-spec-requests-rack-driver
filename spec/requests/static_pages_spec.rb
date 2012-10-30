@@ -33,5 +33,5 @@ describe "Static pages" do
     let(:heading) { 'Contact' }
       let(:title)   { full_title('Contact') }
     it_should_behave_like "all static pages"
-  end
+  end  
 end
