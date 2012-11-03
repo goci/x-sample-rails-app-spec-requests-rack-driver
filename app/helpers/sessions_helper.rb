@@ -18,7 +18,19 @@ module SessionsHelper
     @current_user ||= User.find_by_remember_token(cookies[:remember_token])
   end
   
+  def current_user?(user)
+    user == current_user
+  end
+  
   def signed_in?
     !current_user.nil?
+  end
+  
+  def redirect_back_or(default)
+    redirect_to(session.delete(:location) || default)
+  end
+  
+  def authenticated?(user)
+    user && user.authenticate(params[:password])
   end
 end

@@ -8,6 +8,8 @@ gem 'thin'
 gem 'pg'
 gem 'jquery-rails'
 gem 'bcrypt-ruby'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 group :development do
   gem 'annotate'
@@ -16,9 +18,9 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
-  gem 'guard-cucumber'
   gem 'guard-spork'
   gem 'spork'
+  gem 'faker'
 end
 
 group :assets do
@@ -32,6 +34,4 @@ group :test do
   gem 'capybara'
   gem 'rb-fsevent', :require => false
   gem 'growl'
-  gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
 end
