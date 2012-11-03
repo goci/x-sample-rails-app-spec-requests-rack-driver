@@ -10,7 +10,7 @@ gem 'jquery-rails'
 gem 'bcrypt-ruby'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
-
+gem 'faker'
 group :development do
   gem 'annotate'
 end
@@ -20,7 +20,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'spork'
-  gem 'faker'
 end
 
 group :assets do
