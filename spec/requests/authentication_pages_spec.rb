@@ -73,6 +73,12 @@ describe "Authentication" do
     describe "for non signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
 
+      describe "signed-in specific links don't show up " do
+        it { should_not have_link('Profile') }
+        it { should_not have_link('Settings') }      
+        it { should_not have_link('Sign out') }
+
+      end
       describe "when attempting to visit a protected page" do
         before {
           visit edit_user_path(user)
