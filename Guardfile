@@ -29,15 +29,9 @@ guard 'rspec', all_after_pass: false do
 
   # Capybara request specs
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
-
-  # Turnip features and steps
-  watch(%r{^spec/acceptance/(.+)\.feature$})
-  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
   
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  do |m|
-     ["spec/routing/#{m[1]}_routing_spec.rb",
-      "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb",
-      "spec/acceptance/#{m[1]}_spec.rb",
+     ["spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb",
       (m[1][/_pages/] ? "spec/requests/#{m[1]}_spec.rb" : 
                         "spec/requests/#{m[1].singularize}_pages_spec.rb")]
    end
@@ -45,12 +39,4 @@ guard 'rspec', all_after_pass: false do
      (m[1][/_pages/] ? "spec/requests/#{m[1]}_spec.rb" : 
                         "spec/requests/#{m[1].singularize}_pages_spec.rb")
    end
-end
-
-
-
-guard 'cucumber' do
-  watch(%r{^features/.+\.feature$})
-  watch(%r{^features/support/.+$})          { 'features' }
-  watch(%r{^features/step_definitions/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'features' }
 end
