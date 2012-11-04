@@ -49,8 +49,13 @@ describe "Micropost pages" do
       it { should_not have_link('delete') }
       describe "in the Microposts controller" do
         describe "attempting to delete someone else's micropost" do
-          before { delete micropost_path(mp) }
-          specify { response.should redirect_to(root_path) }
+          it "should fail" do
+            expect { delete micropost_path(mp) }.not_to change(Micropost, :count)
+          end
+          it "should redirect to the root path" do
+            delete micropost_path(mp)
+            response.should redirect_to(root_path)
+          end
         end
       end
     end
