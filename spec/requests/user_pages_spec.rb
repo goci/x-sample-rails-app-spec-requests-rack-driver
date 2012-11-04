@@ -120,9 +120,8 @@ describe "User pages" do
         page.should_not have_link('delete')
       end
 
-      describe "as an admin user" do
+      describe "as an admin user" do                
         let(:admin) { FactoryGirl.create(:admin) }
-                
         before {
           signin(admin)
           visit users_path
@@ -136,6 +135,13 @@ describe "User pages" do
           page.should have_success_message("User: #{user.name} deleted")
         end
         it { should_not have_link('delete', href: user_path(admin)) }
+        describe "deleting himself" do
+          before { delete user_path(admin) }
+          specify { response.should redirect_to(users_path) }
+          describe "should fail" do
+            it { should have_link(admin.name) }
+          end
+        end
       end
     end
 

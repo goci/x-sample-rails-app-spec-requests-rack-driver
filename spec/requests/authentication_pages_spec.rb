@@ -86,6 +86,16 @@ describe "Authentication" do
         }
         describe "after signing in" do
           it { should have_selector('title', text: full_title('Edit user')) }
+          
+          describe "when signing in again" do
+            before {
+              delete signout_path
+              signin(user)
+            }
+            describe "should render the default (profile) page" do
+              it { should have_selector('title', text: user.name) }
+            end
+          end
         end
       end
       describe "in the Users controller" do
@@ -103,6 +113,20 @@ describe "Authentication" do
           it { should have_selector('title', text: 'Sign in') }
           it { should have_notice_message('Please sign in') }
         end 
+      end
+    end
+    describe "for signed-in users" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { signin(user) }
+      describe "in the Users controller" do
+        describe "trying to signup again" do
+          before { get signup_path }
+          specify { response.should redirect_to(root_path) }
+        end
+        describe "trying to create a new user" do
+          before { post users_path }
+          specify { response.should redirect_to(root_path) }
+        end
       end
     end
   end
