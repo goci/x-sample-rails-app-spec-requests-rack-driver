@@ -11,10 +11,15 @@ describe "User pages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:mp1) { FactoryGirl.create(:micropost, content: "foo", user: user) }
+    let!(:mp2) { FactoryGirl.create(:micropost, content: "bar", user: user) }
     before { visit user_path(user) }  
 
     it { should have_selector('h1', text: user.name) }
     it { should have_selector('title', text: user.name) }
+    it { should have_content(mp1.content) }
+    it { should have_content(mp2.content) }
+    it { should have_content(user.microposts.count) }
   end
 
   describe "edit page" do

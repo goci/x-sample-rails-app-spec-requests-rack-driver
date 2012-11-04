@@ -72,6 +72,17 @@ describe "Authentication" do
 
     describe "for non signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
+      
+      describe "in the Microposts controller" do
+        describe "trying to create a micropost" do
+          before { post microposts_path }
+          specify { response.should redirect_to(signin_path) }
+        end
+        describe "trying to delete a micropost" do
+          before { delete micropost_path(FactoryGirl.create(:micropost)) }
+          specify { response.should redirect_to(signin_path) }
+        end
+      end
 
       describe "signed-in specific links don't show up " do
         it { should_not have_link('Profile') }

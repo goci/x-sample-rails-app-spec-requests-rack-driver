@@ -31,6 +31,8 @@ describe User do
   it { should respond_to(:authenticate) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin?) }
+  it { should respond_to(:microposts) }
+  it { should respond_to(:feed) }
   it { should be_valid }
   it { should_not be_admin }
 
@@ -134,6 +136,34 @@ describe User do
       @user.email = "FOO@BAR.COM"
       @user.save
       @user.email.should == "foo@bar.com"
+    end
+  end
+  
+  describe "micropost associations" do
+    let!(:older_micropost) { FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago )}
+    let!(:newer_micropost) { FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago )}
+    describe "should have correct ordering" do
+      its(:microposts) { should == [newer_micropost, older_micropost] }
+    end
+    
+    describe "status" do
+      let!(:unfollowed_micropost) {
+        FactoryGirl.create(:micropost, user: FactoryGirl.create(:user) )
+      }
+      its(:feed) { should include(older_micropost) }
+      its(:feed) { should include(newer_micropost) }
+      its(:feed) { should_not include(unfollowed_micropost) }
+    end
+    
+    describe "destroying the user" do
+      let!(:deleted_microposts) { @user.microposts.dup }
+      before { @user.destroy }
+      it "should destroy the user's microposts" do
+        deleted_microposts.should_not be_empty
+        deleted_microposts.each do |mp|
+          Micropost.find_by_id(mp.id).should be_nil
+        end
+      end
     end
   end
 end

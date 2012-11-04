@@ -9,7 +9,13 @@ namespace :db do
         email = "foobar-#{n+1}@example.org"
         password  = "password"
         User.create!(name: name,email: email,password: password,password_confirmation: password)
-      end    
+      end
+      User.all(limit: 6).each do |user|
+        50.times do
+          content = Faker::Lorem.sentence((5..10).to_a.sample)
+          user.microposts.create!(content: content)
+        end
+      end
     end
   end
 end

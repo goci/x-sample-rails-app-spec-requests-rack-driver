@@ -33,4 +33,11 @@ module SessionsHelper
   def authenticated?(user)
     user && user.authenticate(params[:password])
   end
+  
+  def signed_in_user
+    unless signed_in?
+      session[:location] = request.url
+      redirect_to signin_path, notice: "Please sign in."
+    end
+  end
 end

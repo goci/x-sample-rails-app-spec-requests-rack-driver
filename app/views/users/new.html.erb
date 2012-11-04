@@ -3,8 +3,8 @@
 <div class="row">
 	<div class="span6 offset3">
 			<%= form_for(@user) do |f| %>
-				<%= render partial: 'shared/error_messages', locals: { model: @user } %>
-				<%= render :partial => 'user_form', locals: { f: f } %>
+				<%= render 'shared/error_messages', object: f.object %>
+				<%= render 'user_form', f: f %>
 
 				<%= f.submit "Create my account", class: "btn btn-large btn-primary"%>
 		<% end %>
