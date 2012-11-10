@@ -20,6 +20,47 @@ describe "User pages" do
     it { should have_content(mp1.content) }
     it { should have_content(mp2.content) }
     it { should have_content(user.microposts.count) }
+    describe "follow/unfollow" do
+      let(:other_user) { FactoryGirl.create(:user) }
+      before { signin user }
+      describe "following a user" do
+        before { visit user_path(other_user) }
+        it "should increment the followers count" do
+          expect do
+            click_button "Follow"
+          end.to change(other_user.followers, :count).by(1)
+        end
+        it "should increment the followed_users count" do
+          expect do
+            click_button "Follow"
+          end.to change(user.followed_users, :count).by(1)
+        end
+        describe "toggling the button" do
+          before { click_button 'Follow' }
+          it { should have_button('Unfollow') }
+        end
+      end
+      describe "unfollowing a user" do
+        before { 
+          visit user_path(other_user)
+          click_button 'Follow'
+        }
+        it "should decrement the followers count" do
+          expect do
+            click_button "Unfollow"
+          end.to change(other_user.followers, :count).by(-1)
+        end
+        it "should decrement the followed_users count" do
+          expect do
+            click_button 'Unfollow'
+          end.to change(user.followed_users, :count).by(-1)
+        end
+        describe "toggling the button" do
+          before { click_button 'Unfollow' }
+          it { should have_button('Follow') }
+        end
+      end
+    end
   end
 
   describe "edit page" do
@@ -165,6 +206,46 @@ describe "User pages" do
         User.paginate(page: 1).each do |user|
           page.should have_selector('li', text: user.name)
         end
+      end
+    end
+  end
+
+  describe "following/followers" do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:earlier_follow) { FactoryGirl.create(:user) }
+    let(:later_follow) { FactoryGirl.create(:user) }
+    before { 
+      user.follow!(earlier_follow)
+      user.follow!(later_follow)
+    }
+
+    describe "followed users" do
+      before do
+        signin user
+        visit following_user_path(user)
+      end
+
+      it { should have_selector('title', text: full_title('Following')) }
+      it { should have_selector('h3', text: 'Following') }
+      it "should show all followed users in reverse creation order" do
+        user.followed_users.should == [later_follow, earlier_follow]
+      end
+    end
+
+    describe "followers" do
+      let(:earlier_follower) { FactoryGirl.create(:user) }
+      let(:later_follower) { FactoryGirl.create(:user) }
+      before do
+        earlier_follower.follow!(user)
+        later_follower.follow!(user)
+        signin user
+        visit followers_user_path(user)
+      end
+
+      it { should have_selector('title', text: full_title('Followers')) }
+      it { should have_selector('h3', text: 'Followers') }
+      it "should show all followers users in reverse creation order" do
+        user.followers.should == [later_follower, earlier_follower]
       end
     end
   end

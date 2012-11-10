@@ -1,17 +1,22 @@
-development:
+development: &development
   adapter: postgresql
   database: sample_app_dev
   pool: 5
   timeout: 5000
+  min_messages: warning
 
 test: &test
   adapter: postgresql
   database: sample_app_test
   pool: 5
   timeout: 5000
+  min_messages: warning
 
 production:
   adapter: postgresql
   database: sample_app
   pool: 5
   timeout: 5000
+
+airplane:
+  <<: *development
