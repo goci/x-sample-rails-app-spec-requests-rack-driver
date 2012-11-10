@@ -50,9 +50,6 @@ describe "Static pages" do
           end
         end
       end
-      
-      
-      
       describe "feed" do
         before {
           FactoryGirl.create(:micropost, user: user, content: "Lorem ipsum")
@@ -71,6 +68,17 @@ describe "Static pages" do
           zero_width_space = "&#8203;"
           page.should have_selector("li##{long_mp.id}", contains: zero_width_space)
         end
+      end
+      describe "follower/following counts" do
+        let(:other_user) { FactoryGirl.create(:user) }
+        before do
+          other_user.follow!(user)
+          signin user
+          visit root_path
+        end
+
+        it { should have_link("0 following", href: following_user_path(user)) }
+        it { should have_link("1 followers", href: followers_user_path(user)) }
       end
     end    
   end
