@@ -165,6 +165,27 @@ describe User do
     end
   end
 
+  describe "relationship associations" do
+    let(:other_user) { FactoryGirl.create(:user) }
+    before {
+      @user.save
+      @user.follow!(other_user)
+      other_user.follow!(@user)
+    }
+    describe "destroying the user" do
+      let!(:deleted_relationships) { @user.relationships.dup }
+      let!(:deleted_reverse_relationships) { @user.reverse_relationships.dup }
+      before { @user.destroy }
+      it "should destroy the user's relations" do
+        deleted_reverse_relationships.should_not be_empty
+        deleted_relationships.should_not be_empty
+        deleted_reverse_relationships + deleted_relationships.each do |rel|
+          Relationship.find_by_id(rel.id).should be_nil
+        end
+      end
+    end
+  end
+
   describe "micropost associations" do
     before { @user.save }
     let!(:older_micropost) { FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago )}
