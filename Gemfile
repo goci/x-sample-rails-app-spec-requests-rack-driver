@@ -13,6 +13,7 @@ gem 'bootstrap-will_paginate'
 gem 'faker'
 group :development do
   gem 'annotate'
+  gem 'travis-lint'
 end
 
 group :development, :test do
