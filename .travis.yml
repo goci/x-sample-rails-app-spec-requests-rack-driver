@@ -3,4 +3,4 @@ rvm:
   - 1.9.3
 bundler_args: --binstubs
 script: bin/rake --trace
-before_script: bin/rake db:create db:migrate db:test:prepare --trace
+before_script: bin/rake db:drop db:create db:migrate db:test:prepare --trace
