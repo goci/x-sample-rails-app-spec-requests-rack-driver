@@ -17,7 +17,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', "~> 2.11.0"
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'spork'
@@ -31,7 +31,7 @@ end
 
 group :test do
   gem 'factory_girl_rails'
-  gem 'capybara'
+  gem 'capybara', "~> 1.1.3"
   gem 'rb-fsevent', :require => false
   gem 'growl'
   gem 'simplecov', :require => false
