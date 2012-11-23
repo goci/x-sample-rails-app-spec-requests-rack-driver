@@ -23,7 +23,7 @@ describe User do
   end
   subject { @user }
 
-  it { should respond_to(:name) }
+  it { should_not respond_to(:name) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
