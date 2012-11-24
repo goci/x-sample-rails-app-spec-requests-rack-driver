@@ -1,0 +1,5 @@
+#!/bin/bash
+git push
+if ! git push heroku master 2>&1 >/dev/null | grep 'Everything up-to-date'; then
+  heroku run rake db:migrate
+fi
