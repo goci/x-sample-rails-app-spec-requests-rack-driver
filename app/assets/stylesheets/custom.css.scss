@@ -138,6 +138,17 @@ aside {
       letter-spacing: -1px;
       margin-bottom: 3px;
     }
+    
+    .chars-indicator {
+      padding-left: 2px;
+      display: inline-block;
+      color: $grayLight;
+    }
+    
+    .chars-indicator-negative {
+      @extend .chars-indicator;
+      color: #f00;
+    }
   }
 }
 
@@ -203,10 +214,6 @@ input, textarea, select, .uneditable-input {
   margin-right: 10px;
 }
 aside {
-  .chars-indicator {
-    color: $grayLight;
-    margin-bottom: 3px;
-  }
   textarea {
     height: 100px !important;
     resize: none;
